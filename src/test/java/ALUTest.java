@@ -3,68 +3,65 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ALUTest {
+
     @Test
-    void name(){
-        ALU alu = new ALU();
-        Result result = new Result();
+    void 정상적인계산테스트() {
+        String OPCODE[] = {"ADD","SUB","MUL"};
+        Integer results[] = {10, 4, 21};
+        for(int i = 0 ; i < 3; i ++) {
+            ALU alu = new ALU();
+            Result result = new Result();
 
-        alu.setOPCODE("ADD");
-        alu.setOperand1(1);
-        alu.setOperand2(2);
-        alu.enableSignal(result);
+            alu.setOPCODE(OPCODE[i]);
+            alu.setOperand1(7);
+            alu.setOperand2(3);
+            alu.enableSignal(result);
 
-        assertEquals(3, result.getResult());
-        assertEquals(0, result.getStatus());
+            assertEquals(results[i], result.getResult());
+            assertEquals(0, result.getStatus());
+        }
     }
 
     @Test
-    void test2(){
-        ALU alu = new ALU();
-        Result result = new Result();
+    void 비정상적인_operand1() {
+        String OPCODE[] = {"ADD","SUB","MUL"};
+        for(int i = 0 ; i < 3; i ++) {
+            ALU alu = new ALU();
+            Result result = new Result();
 
-        alu.setOPCODE("MUL");
-        alu.setOperand1(1);
-        alu.setOperand2(2);
-        alu.enableSignal(result);
+            alu.setOPCODE(OPCODE[i]);
+            alu.setOperand2(3);
+            alu.enableSignal(result);
 
-        assertEquals(3, result.getResult());
-        assertEquals(0, result.getStatus());
+            assertEquals(65535, result.getResult());
+            assertEquals(1, result.getStatus());
+        }
     }
 
     @Test
-    void test3(){
-        ALU alu = new ALU();
-        Result result = new Result();
+    void 비정상적인_operand2(){
+        String OPCODE[] = {"ADD","SUB","MUL"};
+        for(int i = 0 ; i < 3; i ++) {
+            ALU alu = new ALU();
+            Result result = new Result();
 
-        alu.setOPCODE("SUB");
-        alu.setOperand1(5);
-        alu.setOperand2(2);
-        alu.enableSignal(result);
+            alu.setOPCODE(OPCODE[i]);
+            alu.setOperand1(7);
+            alu.enableSignal(result);
 
-        assertEquals(3, result.getResult());
-        assertEquals(0, result.getStatus());
+            assertEquals(65535, result.getResult());
+            assertEquals(2, result.getStatus());
+        }
     }
+
     @Test
-    void test4(){
+    void 비정상적인_OPCODE(){
         ALU alu = new ALU();
         Result result = new Result();
 
-        alu.setOPCODE("SUB");
-        alu.setOperand1(-1);
-        alu.setOperand2(2);
-        alu.enableSignal(result);
-
-        assertEquals(65535, result.getResult());
-        assertEquals(1, result.getStatus());
-    }
-    @Test
-    void test5(){
-        ALU alu = new ALU();
-        Result result = new Result();
-
-        alu.setOPCODE("SUASDFB");
-        alu.setOperand1(-1);
-        alu.setOperand2(2);
+        alu.setOPCODE("DIV");
+        alu.setOperand1(7);
+        alu.setOperand2(3);
         alu.enableSignal(result);
 
         assertEquals(65535, result.getResult());
